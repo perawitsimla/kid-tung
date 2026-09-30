@@ -9,19 +9,15 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
-    {
-        Schema::create('groups', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
-        });
-    }
-
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
-    {
-        Schema::dropIfExists('groups');
-    }
+    public function up(): void {
+    Schema::create('groups', function (Blueprint $table) {
+        $table->char('group_id', 8)->primary();
+        $table->string('group_name', 100);
+        $table->timestamp('group_createdAt')->useCurrent();
+        $table->timestamp('group_updatedAt')->useCurrent();
+        $table->softDeletes('group_deletedAt');
+    });
+}
+public function down(): void { Schema::dropIfExists('groups'); 
+}
 };
