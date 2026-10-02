@@ -18,8 +18,22 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     // Groups
-    Route::get('/groups', [GroupController::class, 'index'])->name('groups.index');
     Route::get('/groups/create', [GroupController::class, 'create'])->name('groups.create');
+    Route::post('/groups', [GroupController::class, 'store'])->name('groups.store');
+
+    Route::post('/groups/check-user', [App\Http\Controllers\GroupController::class, 'checkUser'])->name('groups.check-user');
+    Route::get('/groups', [App\Http\Controllers\GroupController::class, 'index'])->name('groups.index');
+    
+    // ลบสมาชิกออกจากกลุ่ม
+    Route::delete('/groups/{group}/members/{user}', [App\Http\Controllers\GroupController::class, 'removeMember'])->name('groups.members.destroy');
+
+    // หน้าฟอร์มเพิ่มรายการบิล (Add Item)
+    Route::get('/groups/{group}/items/create', [App\Http\Controllers\GroupController::class, 'createItem'])->name('groups.items.create');
+
+    // จัดการสมาชิกและบิลในกลุ่ม
+    Route::post('/groups/{group}/members', [App\Http\Controllers\GroupController::class, 'addMember'])->name('groups.members.store');
+    Route::post('/groups/{group}/expenses', [App\Http\Controllers\GroupController::class, 'addExpense'])->name('groups.expenses.store');
+
     Route::post('/groups', [GroupController::class, 'store'])->name('groups.store');
     Route::get('/groups/{id}', [GroupController::class, 'show'])->name('groups.show');
     Route::post('/groups/{id}/members', [GroupController::class, 'addMember'])->name('groups.members.add');

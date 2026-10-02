@@ -1,0 +1,231 @@
+/* public/css/group-show.css */
+.manage-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem 1rem 100px 1rem; /* เผื่อที่ให้แถบด้านล่าง */
+}
+
+.manage-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.btn-back {
+    color: #6B7280;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+/* 2 Columns Layout */
+.split-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+}
+
+@media (max-width: 768px) {
+    .split-layout {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Card Style */
+.manage-card {
+    background-color: #FFF9F5; /* สีพื้นหลังโทนอุ่น */
+    border: 1px solid #FDE6D5;
+    border-radius: 12px;
+    padding: 1.5rem;
+}
+
+.section-title {
+    color: #C2410C; /* สีส้มแดง */
+    font-size: 1.25rem;
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Forms */
+.add-form {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.input-field {
+    flex: 1;
+    padding: 0.75rem;
+    border: 1px solid #E5E7EB;
+    border-radius: 8px;
+    outline: none;
+}
+
+.flex-2 { flex: 2; }
+.flex-1 { flex: 1; }
+
+.btn-add {
+    background-color: #EA580C;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    width: 45px;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+/* List Items */
+.list-item {
+    background: white;
+    padding: 1rem;
+    border-radius: 8px;
+    border: 1px solid #F3F4F6;
+    margin-bottom: 0.75rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.list-item strong {
+    font-size: 1rem;
+    color: #111827;
+}
+
+.text-muted {
+    font-size: 0.85rem;
+    color: #6B7280;
+    margin: 0.25rem 0;
+}
+
+.btn-more {
+    background: none;
+    border: none;
+    font-size: 1.25rem;
+    color: #9CA3AF;
+    cursor: pointer;
+}
+
+/* Avatars */
+.avatar-group {
+    display: flex;
+    gap: 0.25rem;
+    margin-top: 0.5rem;
+}
+
+.avatar {
+    width: 24px;
+    height: 24px;
+    background-color: #FB923C;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: bold;
+}
+
+/* Bottom Summary Bar */
+.summary-bottom-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #EA580C; /* พื้นหลังสีส้มแดง */
+    padding: 1rem 0;
+    box-shadow: 0 -4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.summary-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.btn-summary {
+    color: white;
+    text-decoration: none;
+    font-size: 1.25rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.total-amount {
+    text-align: right;
+    color: white;
+}
+
+.total-amount small {
+    display: block;
+    font-size: 0.85rem;
+    opacity: 0.9;
+}
+
+.total-amount span {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+/* Bottom Summary Bar (อัปเดตใหม่) */
+.summary-bottom-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #FFFFFF; /* เปลี่ยนบาร์เป็นสีขาว */
+    padding: 1rem 0;
+    box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.05); /* เพิ่มเงาให้ดูมีมิติ */
+    border-top: 1px solid #E5E7EB;
+}
+
+.summary-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.btn-summary {
+    background-color: #EA580C; /* ทำให้เป็นปุ่มสีส้มแยกชัดเจน */
+    color: white;
+    text-decoration: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: bold;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    box-shadow: 0 2px 4px rgba(234, 88, 12, 0.2);
+    transition: background-color 0.2s;
+}
+
+.btn-summary:hover {
+    background-color: #C2410C;
+}
+
+.total-amount {
+    text-align: right;
+    color: #111827;
+}
+
+.total-amount small {
+    display: block;
+    font-size: 0.85rem;
+    color: #6B7280;
+}
+
+.total-amount span {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #EA580C;
+}

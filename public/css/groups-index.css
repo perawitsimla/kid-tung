@@ -1,0 +1,125 @@
+/* public/css/groups-index.css */
+
+.groups-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+}
+
+/* Header Section */
+.groups-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #F3F4F6;
+    padding-bottom: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.header-title h1 {
+    font-size: 1.5rem;
+    color: #111827;
+    margin: 0 0 0.25rem 0;
+}
+
+.header-title p {
+    color: #6B7280;
+    margin: 0;
+    font-size: 0.95rem;
+}
+
+.btn-create {
+    background-color: #10B981; /* สีเขียวตามภาพ */
+    color: white;
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: background-color 0.2s;
+}
+
+.btn-create:hover {
+    background-color: #059669;
+}
+
+/* Grid Layout */
+.groups-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.5rem;
+}
+
+/* Card Styling */
+.group-card {
+    background: #FFFFFF;
+    border-radius: 16px;
+    padding: 1.5rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05), 0 4px 6px rgba(0,0,0,0.02);
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #F9FAFB;
+}
+
+.card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.status-badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.status-badge.active {
+    background-color: #D1FAE5; /* พื้นหลังสีเขียวอ่อน */
+    color: #065F46; /* ตัวหนังสือสีเขียวเข้ม */
+}
+
+.member-count {
+    color: #4B5563;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.group-name {
+    font-size: 1.25rem;
+    color: #111827;
+    margin: 0 0 0.5rem 0;
+}
+
+.group-total {
+    color: #6B7280;
+    font-size: 0.95rem;
+    margin: 0 0 1.5rem 0;
+}
+
+.card-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto; /* ดันให้อยู่ล่างสุดของการ์ด */
+}
+
+.debt-status {
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.text-red {
+    color: #DC2626; /* สีแดงสำหรับยอดติดหนี้ */
+}
+
+.btn-view {
+    color: #059669;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.btn-view:hover {
+    text-decoration: underline;
+}

@@ -1,0 +1,85 @@
+/* public/css/group-create.css */
+.group-create-container {
+    max-width: 500px;
+    margin: 2rem auto;
+    background: #ffffff;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.input-add-group {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.input-add-group input {
+    flex: 1;
+}
+
+.btn-add {
+    background-color: #10B981; /* สีเขียว */
+    color: white;
+    border: none;
+    padding: 0 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: 500;
+}
+
+.btn-add:hover {
+    background-color: #059669;
+}
+
+.member-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.member-badge {
+    background-color: #E0F2FE;
+    color: #0369A1;
+    padding: 0.4rem 0.8rem;
+    border-radius: 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    border: 1px solid #BAE6FD;
+}
+
+.member-badge .remove-btn {
+    background: none;
+    border: none;
+    color: #EF4444;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 0;
+    font-size: 1.1rem;
+    line-height: 1;
+}
+
+.member-badge .remove-btn:hover {
+    color: #B91C1C;
+}
+
+.form-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.btn-secondary {
+    display: inline-block;
+    text-align: center;
+    padding: 0.75rem 1rem;
+    background-color: #e5e7eb;
+    color: #374151;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 500;
+}

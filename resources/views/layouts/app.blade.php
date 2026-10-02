@@ -16,7 +16,7 @@
         <a href="{{ route('dashboard') }}" class="navbar-brand">KidTung</a>
         <div class="navbar-menu">
             <a href="{{ route('dashboard') }}">หน้าแรก</a>
-            <a href="{{ route('groups.index') }}">กลุ่มของฉัน</a>
+            <a href="{{ route('groups.store') }}">กลุ่มของฉัน</a>
             
             <form method="POST" action="/logout" style="display: inline; margin-left: 1.5rem;">
                 @csrf

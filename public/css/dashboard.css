@@ -1,0 +1,84 @@
+/* public/css/dashboard.css */
+
+.dashboard-header {
+    margin-bottom: 2rem;
+}
+
+.summary-cards {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+}
+
+.card {
+    flex: 1;
+    padding: 1.5rem;
+    border-radius: 10px;
+    color: white;
+}
+
+.card h3 { 
+    margin-top: 0; 
+    font-size: 1rem; 
+    opacity: 0.9; 
+}
+
+.card h2 { 
+    margin: 0; 
+    font-size: 2rem; 
+}
+
+.card-danger { 
+    background-color: #EF4444; /* สีแดง */
+} 
+
+.card-success { 
+    background-color: #10B981; /* สีเขียว */
+} 
+
+.group-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.btn-primary {
+    background-color: var(--primary-color, #f97316); /* ใส่สีส้มเผื่อไว้กรณีไม่มีตัวแปร --primary-color */
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.group-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.group-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem;
+    border: 1px solid var(--border-color, #e5e7eb);
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+    text-decoration: none;
+    color: var(--text-main, #1f2937);
+    transition: background-color 0.2s;
+}
+
+.group-item:hover {
+    background-color: #F9FAFB;
+    border-color: var(--primary-color, #f97316);
+}
+
+.empty-state {
+    text-align: center;
+    padding: 3rem;
+    background-color: #F9FAFB;
+    border-radius: 8px;
+    border: 1px dashed var(--border-color, #e5e7eb);
+}
