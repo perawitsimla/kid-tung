@@ -29,11 +29,11 @@
                 <h2 class="group-name">{{ $group->group_name }}</h2>
                 
                 <!-- ยอดรวมจำลอง -->
-                <p class="group-total">ยอดรวมกลุ่ม ฿ 0.00</p>
+                <p class="group-total">ยอดรวมกลุ่ม ฿{{ number_format($group->total_expense, 2) }}</p>
                 
                 <div class="card-bottom">
                     <!-- ยอดหนี้จำลอง -->
-                    <span class="debt-status text-red">คุณติดหนี้ ฿0.00</span>
+                    <span class="debt-status text-red">คุณติดหนี้ ฿{{ number_format($group->user_debt, 2) }}</span>
                     <!-- เปลี่ยน href ไปหน้าโชว์รายละเอียดกลุ่มในอนาคต -->
                     <a href="{{ route('groups.show', $group->group_id) }}" class="btn-view">เปิดดู &rarr;</a>
                 </div>

@@ -229,3 +229,41 @@
     font-weight: bold;
     color: #EA580C;
 }
+/* public/css/group-show.css */
+body { background-color: #FAFAFA; } /* พื้นหลังหลักของเว็บให้ดูสว่าง */
+.manage-container { max-width: 1200px; margin: 0 auto; padding: 2rem 1rem 120px 1rem; }
+.manage-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; }
+.manage-header h1 { color: #111827; margin: 0; font-size: 1.8rem; font-weight: 800; }
+.btn-back { color: #6B7280; text-decoration: none; font-weight: 600; background: white; padding: 0.5rem 1rem; border-radius: 8px; border: 1px solid #E5E7EB; }
+.btn-back:hover { background: #F3F4F6; }
+
+.split-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+@media (max-width: 768px) { .split-layout { grid-template-columns: 1fr; } }
+
+.manage-card { background-color: #FFFFFF; border: 1px solid #F3F4F6; border-radius: 16px; padding: 1.5rem; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
+.section-title { color: #EA580C; font-size: 1.25rem; margin-top: 0; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem; font-weight: 700; }
+
+.add-form { display: flex; gap: 0.5rem; margin-bottom: 1.5rem; }
+.input-field { flex: 1; padding: 0.75rem; border: 1px solid #E5E7EB; border-radius: 8px; outline: none; background: #F9FAFB; }
+.input-field:focus { border-color: #EA580C; background: #FFF; }
+.flex-2 { flex: 2; } .flex-1 { flex: 1; }
+.btn-add { background-color: #EA580C; color: white; border: none; border-radius: 8px; width: 45px; font-size: 1.5rem; cursor: pointer; transition: 0.2s; }
+.btn-add:hover { background-color: #C2410C; }
+
+.item-list { display: flex; flex-direction: column; gap: 0.75rem; }
+.list-item { background: #FFFFFF; padding: 1rem; border-radius: 12px; border: 1px solid #F3F4F6; display: flex; justify-content: space-between; align-items: flex-start; transition: 0.2s; }
+.list-item:hover { border-color: #FDBA74; box-shadow: 0 2px 8px rgba(234,88,12,0.05); }
+
+/* สวิตช์เปิดปิด VAT/SC สีส้ม */
+input:checked + .slider { background-color: #EA580C; }
+
+/* ปุ่มเพิ่มรายการบิลหลัก */
+.btn-primary { background-color: #FFF7ED; color: #EA580C; border: 1px dashed #EA580C; padding: 0.75rem; border-radius: 8px; font-weight: bold; text-decoration: none; transition: 0.2s; }
+.btn-primary:hover { background-color: #EA580C; color: white; }
+
+/* แถบด้านล่างสรุปการโอนเงิน */
+.summary-bottom-bar { position: fixed; bottom: 0; left: 0; right: 0; background-color: #FFFFFF; padding: 1rem 0; box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.05); border-top: 1px solid #E5E7EB; z-index: 10; }
+.summary-content { max-width: 1200px; margin: 0 auto; padding: 0 1rem; display: flex; justify-content: space-between; align-items: center; }
+.btn-summary { background-color: #EA580C; color: white; text-decoration: none; padding: 0.8rem 2rem; border-radius: 999px; font-size: 1.1rem; font-weight: bold; display: inline-flex; align-items: center; gap: 0.5rem; box-shadow: 0 4px 6px rgba(234, 88, 12, 0.2); transition: 0.2s; }
+.btn-summary:hover { background-color: #C2410C; transform: translateY(-2px); }
+.total-amount span { font-size: 1.75rem; font-weight: 800; color: #EA580C; }

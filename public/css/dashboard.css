@@ -1,84 +1,59 @@
-/* public/css/dashboard.css */
+.dashboard-container { max-width: 1200px; margin: 0 auto; }
+.page-title { font-size: 1.5rem; color: #111827; margin-bottom: 2rem; font-weight: 800; }
 
-.dashboard-header {
-    margin-bottom: 2rem;
+.summary-cards-grid { 
+    display: grid; 
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); 
+    gap: 1.5rem; 
 }
 
-.summary-cards {
-    display: flex;
-    gap: 1.5rem;
-    margin-bottom: 3rem;
+.summary-card {
+    background: #FFFFFF; 
+    border-radius: 20px; 
+    padding: 1.75rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03); 
+    border: 1px solid #F3F4F6;
+    display: flex; 
+    flex-direction: column; 
+    position: relative;
 }
 
-.card {
-    flex: 1;
-    padding: 1.5rem;
-    border-radius: 10px;
-    color: white;
+.card-header { margin-bottom: 1rem; }
+.card-header .title { font-weight: 700; font-size: 1rem; }
+
+.icon-circle { 
+    width: 50px; height: 50px; 
+    border-radius: 50%; 
+    display: flex; align-items: center; justify-content: center; 
+    font-size: 1.5rem; 
+    position: absolute; 
+    right: 1.75rem; 
+    top: 1.75rem;
 }
 
-.card h3 { 
-    margin-top: 0; 
-    font-size: 1rem; 
-    opacity: 0.9; 
-}
+.card-amount { font-size: 2.75rem; font-weight: 800; margin-bottom: 1rem; line-height: 1; letter-spacing: -1px; }
 
-.card h2 { 
-    margin: 0; 
-    font-size: 2rem; 
-}
+.card-detail { color: #6B7280; font-size: 0.9rem; margin-bottom: 2rem; flex: 1; line-height: 1.5; }
+.card-detail strong { color: #374151; font-weight: 700; }
 
-.card-danger { 
-    background-color: #EF4444; /* สีแดง */
-} 
+.card-footer { display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; font-weight: 600; margin-top: auto; }
+.action-link { text-decoration: none; font-weight: 700; transition: 0.2s; }
+.action-link:hover { text-decoration: underline; }
 
-.card-success { 
-    background-color: #10B981; /* สีเขียว */
-} 
+.card-debt .title { color: #C2410C; }
+.card-debt .card-amount { color: #B91C1C; }
+.card-debt .icon-circle { background-color: #FEE2E2; color: #B91C1C; }
+.card-debt .status { color: #6B7280; }
+.card-debt .action-link { color: #B91C1C; }
 
-.group-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1rem;
-}
+.card-credit .title { color: #047857; }
+.card-credit .card-amount { color: #047857; }
+.card-credit .icon-circle { background-color: #10B981; color: #022C22; }
+.card-credit .status-highlight { color: #D97706; }
+.card-credit .action-link { color: #047857; }
 
-.btn-primary {
-    background-color: var(--primary-color, #f97316); /* ใส่สีส้มเผื่อไว้กรณีไม่มีตัวแปร --primary-color */
-    color: white;
-    padding: 0.5rem 1rem;
-    border-radius: 6px;
-    text-decoration: none;
-    font-weight: bold;
-}
-
-.group-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.group-item {
-    display: flex;
-    justify-content: space-between;
-    padding: 1rem;
-    border: 1px solid var(--border-color, #e5e7eb);
-    border-radius: 8px;
-    margin-bottom: 0.5rem;
-    text-decoration: none;
-    color: var(--text-main, #1f2937);
-    transition: background-color 0.2s;
-}
-
-.group-item:hover {
-    background-color: #F9FAFB;
-    border-color: var(--primary-color, #f97316);
-}
-
-.empty-state {
-    text-align: center;
-    padding: 3rem;
-    background-color: #F9FAFB;
-    border-radius: 8px;
-    border: 1px dashed var(--border-color, #e5e7eb);
-}
+.card-total .title { color: #4338CA; }
+.card-total .card-amount { color: #111827; }
+.card-total .icon-circle { background-color: #E0E7FF; color: #1E1B4B; }
+.card-total .status { color: #6B7280; }
+.card-total .action-link { color: #4338CA; }

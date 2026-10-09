@@ -1,50 +1,85 @@
-<!-- 1. เรียกใช้โครงสร้างจากไฟล์ resources/views/layouts/app.blade.php -->
 @extends('layouts.app')
+@section('title', 'ภาพรวมสรุปยอด')
 
-<!-- 2. ส่งข้อความไปแทรกใน @yield('title') บนแท็ก <title> ของ layout -->
-@section('title', 'ภาพรวมบัญชีของฉัน')
+@push('styles')
+    <!-- เรียกผ่านพาธตรงๆ เพื่อตัดปัญหา https/http ขัดแย้งกัน -->
+    <link rel="stylesheet" href="/css/dashboard.css">
+@endpush
 
-<!-- 3. ส่งโค้ด HTML ทั้งหมดนี้ไปแทรกใน @yield('content') -->
- <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
 @section('content')
-    <div class="dashboard-header">
-        <h1>ยินดีต้อนรับกลับมา!</h1>
-        <p>นี่คือสรุปยอดหนี้และการใช้งานกลุ่มล่าสุดของคุณ</p>
-    </div>
+<div class="dashboard-container">
+    <h2 class="page-title">ภาพรวมสรุปยอด</h2>
 
-    <div class="summary-cards">
-        <div class="card card-danger">
-            <h3>คุณติดหนี้เพื่อนรวม</h3>
-            <h2>฿ {{ number_format($totalOwed, 2) }}</h2> 
-        </div>
+    <div class="summary-cards-grid">
         
-        <div class="card card-success">
-            <h3>เพื่อนติดหนี้คุณรวม</h3>
-            <h2>฿ {{ number_format($totalLent, 2) }}</h2>
-        </div>
-    </div>
-
-    <div class="recent-groups">
-        <div class="group-header">
-            <h2>กลุ่มล่าสุด</h2>
-            <a href="{{ route('groups.create') }}" class="btn-primary">+ สร้างกลุ่มใหม่</a>
-        </div>
-
-        @if($recentGroups->isEmpty())
-            <div class="empty-state">
-                <p>คุณยังไม่ได้เข้าร่วมกลุ่มใดเลย ลองสร้างกลุ่มใหม่เพื่อเริ่มหารค่าใช้จ่ายดูสิ!</p>
+        <!-- Card 1: คุณติดหนี้คนอื่น -->
+        <div class="summary-card card-debt">
+            <div class="card-header">
+                <span class="title">คุณติดหนี้คนอื่น</span>
             </div>
-        @else
-            <ul class="group-list">
-                @foreach($recentGroups as $group)
-                    <li>
-                        <a href="{{ route('groups.show', $group->group_id) }}" class="group-item">
-                            <strong>{{ $group->group_name }}</strong>
-                            <span class="text-muted">เข้าไปดูรายละเอียด &rarr;</span>
-                        </a>
-                    </li>
-                @endforeach
-            </ul>
-        @endif
+            
+            <div class="card-amount">฿ {{ number_format($totalDebt, 2) }}</div>
+            
+            <div class="card-detail">
+                @if(!empty($latestDebt))
+                    ยอดค้างจ่ายให้ <strong>{{ $latestDebt->creditor_name }}</strong> (ค่า{{ $latestDebt->item_name }})
+                @else
+                    คุณไม่มีหนี้ค้างจ่าย เยี่ยมมาก!
+                @endif
+            </div>
+
+            <div class="card-footer">
+                <span class="status">สถานะ: รอโอนเงินและแนบสลิป</span>
+                <a href="#" class="action-link">ชำระเงิน &rarr;</a>
+            </div>
+        </div>
+
+        <!-- Card 2: คนอื่นติดหนี้คุณ -->
+        <div class="summary-card card-credit">
+            <div class="card-header">
+                <span class="title">คนอื่นติดหนี้คุณ</span>
+            </div>
+            
+            <div class="card-amount">฿ {{ number_format($totalCredit, 2) }}</div>
+            
+            <div class="card-detail">
+                @if(!empty($latestCredit))
+                    รอคุณตรวจสอบและยืนยันสลิปจาก <strong>{{ $latestCredit->debtor_name }}</strong>
+                @else
+                    ไม่มีใครติดหนี้คุณในตอนนี้
+                @endif
+            </div>
+
+            <div class="card-footer">
+                <span class="status status-highlight">&bull; รอยืนยันสลิป</span>
+                <a href="#" class="action-link">ตรวจสลิป &rarr;</a>
+            </div>
+        </div>
+
+        <!-- Card 3: ค่าใช้จ่ายรวมทั้งหมด -->
+        <div class="summary-card card-total">
+            <div class="card-header">
+                <span class="title">ค่าใช้จ่ายรวมทั้งหมด</span>
+            </div>
+           
+            <div class="card-amount">฿ {{ number_format($totalExpense, 2) }}</div>
+            
+            <div class="card-detail">
+                @if(!empty($latestGroup))
+                    จากกลุ่มล่าสุด: <strong>{{ $latestGroup->group_name }}</strong>
+                @else
+                    คุณยังไม่มีประวัติค่าใช้จ่าย
+                @endif
+            </div>
+
+            <div class="card-footer">
+                <span class="status">สมาชิกในกลุ่ม {{ $groupMemberCount }} คน</span>
+                @if(!empty($latestGroup))
+                <a href="{{ route('groups.show', $latestGroup->group_id) }}" class="action-link">+ เพิ่มบิลใหม่</a>
+                @endif
+            </div>
+        </div>
+
     </div>
+</div>
 @endsection

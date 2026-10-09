@@ -16,23 +16,43 @@ class GroupController extends Controller
    // เพิ่มไว้ด้านบนสุดของ GroupController
     public function index()
     {
+        $user = \Illuminate\Support\Facades\Auth::user();
+
         // ดึงข้อมูลกลุ่มทั้งหมดที่ user ล็อกอินอยู่เป็นสมาชิก
-        // withCount('members') จะไปนับจำนวนเพื่อนในตาราง group_members ให้อัตโนมัติ
-        $groups = \Illuminate\Support\Facades\Auth::user()
-                    ->groups()
+        $groups = $user->groups()
                     ->withCount('members')
                     ->orderByDesc('group_createdAt')
                     ->get();
 
+        // วนลูปคำนวณยอดเงินของแต่ละกลุ่ม
+        foreach ($groups as $group) {
+            // 1. คำนวณ "ยอดรวมกลุ่ม" (เอาบิลทุกใบในกลุ่มมารวมกัน)
+            $totalExpense = \Illuminate\Support\Facades\DB::table('expenses')
+                ->join('expense_items', 'expenses.exp_id', '=', 'expense_items.item_exp_id')
+                ->where('expenses.exp_group_id', $group->group_id)
+                ->sum('expense_items.item_price');
+            
+            $group->total_expense = $totalExpense;
+
+            // 2. คำนวณ "คุณติดหนี้" (ยอดที่ตัวเองโดนหาร แต่ไม่ได้เป็นคนจ่าย)
+            $userDebt = \Illuminate\Support\Facades\DB::table('expenses')
+                ->join('expense_items', 'expenses.exp_id', '=', 'expense_items.item_exp_id')
+                ->join('item_splits', 'expense_items.item_id', '=', 'item_splits.is_item_id')
+                ->where('expenses.exp_group_id', $group->group_id)
+                ->where('item_splits.is_user_id', $user->user_id) // ต้องเป็นยอดหารของเรา
+                ->where('expense_items.item_payer_id', '!=', $user->user_id) // และเราต้องไม่ได้สำรองจ่ายเอง
+                ->sum('item_splits.is_amount');
+
+            $group->user_debt = $userDebt;
+        }
+
         return view('groups.index', compact('groups'));
     }
-
     // GET /groups/create -> แสดงหน้าฟอร์มสร้างกลุ่มใหม่
     public function create()
     {
         return view('groups.create');
     }
-
     public function checkUser(Request $request)
     {
         $username = $request->user_name;
@@ -250,5 +270,134 @@ class GroupController extends Controller
 
         // บันทึกเสร็จให้เด้งกลับไปหน้า Group Info
         return redirect()->route('groups.show', $id)->with('success', 'เพิ่มรายการสำเร็จ');
+    }
+    public function editExpense($groupId, $expenseId)
+    {
+        $group = \App\Models\Group::with('members')->findOrFail($groupId);
+
+        $expense = \Illuminate\Support\Facades\DB::table('expenses')
+            ->where('exp_id', $expenseId)->where('exp_group_id', $groupId)->first();
+
+        $expenseItem = \Illuminate\Support\Facades\DB::table('expense_items')
+            ->where('item_exp_id', $expenseId)->first();
+
+        $splits = \Illuminate\Support\Facades\DB::table('item_splits')
+            ->where('is_item_id', $expenseItem->item_id)->pluck('is_user_id')->toArray();
+
+        // เปลี่ยนตรงนี้ ชี้ไปที่โฟลเดอร์เดียวกัน แต่ใช้ไฟล์ create-item แทน
+        return view('groups.create-item', compact('group', 'expense', 'expenseItem', 'splits'));
+    }
+    public function updateExpense(Request $request, $groupId, $expenseId)
+    {
+        // 1. ตรวจสอบข้อมูล
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'price' => 'required|numeric|min:0',
+            'paid_by' => 'required',
+            'split_users' => 'required|array',
+        ]);
+
+        try {
+            \Illuminate\Support\Facades\DB::beginTransaction();
+
+            // 2. อัปเดตตาราง expenses (ชื่อบิลหลัก)
+            // แก้ชื่อคอลัมน์ updated_at ให้ตรงกับโครงสร้างของคุณคือ exp_updatedAt
+            \Illuminate\Support\Facades\DB::table('expenses')
+                ->where('exp_id', $expenseId)
+                ->where('exp_group_id', $groupId)
+                ->update([
+                    'exp_title' => $request->title,
+                    'exp_updatedAt' => now(), 
+                ]);
+
+            // 3. อัปเดตตาราง expense_items (ราคา และ คนสำรองจ่าย)
+            // เพิ่มการอัปเดต item_name ให้ตรงกับ title ที่แก้มาด้วย
+            \Illuminate\Support\Facades\DB::table('expense_items')
+                ->where('item_exp_id', $expenseId)
+                ->update([
+                    'item_name' => $request->title,
+                    'item_price' => $request->price,
+                    'item_payer_id' => $request->paid_by,
+                    'item_updatedAt' => now(),
+                ]);
+
+            // ดึง ID ของ item เพื่อไปอัปเดตคนหาร
+            $expenseItem = \Illuminate\Support\Facades\DB::table('expense_items')
+                ->where('item_exp_id', $expenseId)
+                ->first();
+
+            if ($expenseItem) {
+                // 4. ลบคนหารเดิมทั้งหมด
+                \Illuminate\Support\Facades\DB::table('item_splits')
+                    ->where('is_item_id', $expenseItem->item_id)
+                    ->delete();
+
+                // คำนวณราคาหารเท่ากัน
+                $splitCount = count($request->split_users);
+                $splitAmount = $splitCount > 0 ? ($request->price / $splitCount) : 0;
+
+                $splitsData = [];
+                foreach ($request->split_users as $userId) {
+                    // จุดสำคัญ: ต้องใส่ is_id, is_split_method และ is_updatedAt ให้ครบเหมือนตอน store
+                    $splitsData[] = [
+                        'is_id' => Str::random(8), 
+                        'is_item_id' => $expenseItem->item_id,
+                        'is_user_id' => $userId,
+                        'is_amount' => $splitAmount,
+                        'is_split_method' => 'equal', 
+                        'is_createdAt' => now(),
+                        'is_updatedAt' => now(),
+                    ];  
+                }
+                
+                \Illuminate\Support\Facades\DB::table('item_splits')->insert($splitsData);
+            }
+
+            \Illuminate\Support\Facades\DB::commit();
+
+            return redirect()->route('groups.show', $groupId)->with('success', 'อัปเดตรายการเรียบร้อยแล้ว!');
+
+        } catch (\Exception $e) {
+            \Illuminate\Support\Facades\DB::rollBack();
+            // ถ้าเกิดบั๊กจะแสดง error ให้เห็นชัดๆ
+            return back()->with('error', 'เกิดข้อผิดพลาดในการบันทึก: ' . $e->getMessage());
+        }
+    }
+    public function destroyExpense($groupId, $expenseId)
+    {
+        try {
+            \Illuminate\Support\Facades\DB::beginTransaction();
+
+            // 1. หา item_id ของบิลนี้ก่อน เพื่อไปลบคนหาร
+            $expenseItem = \Illuminate\Support\Facades\DB::table('expense_items')
+                ->where('item_exp_id', $expenseId)
+                ->first();
+
+            if ($expenseItem) {
+                // 2. ลบรายชื่อคนหารในตาราง item_splits
+                \Illuminate\Support\Facades\DB::table('item_splits')
+                    ->where('is_item_id', $expenseItem->item_id)
+                    ->delete();
+                    
+                // 3. ลบราคาและข้อมูลบิลในตาราง expense_items
+                \Illuminate\Support\Facades\DB::table('expense_items')
+                    ->where('item_id', $expenseItem->item_id)
+                    ->delete();
+            }
+
+            // 4. ลบชื่อบิลหลักในตาราง expenses
+            \Illuminate\Support\Facades\DB::table('expenses')
+                ->where('exp_id', $expenseId)
+                ->where('exp_group_id', $groupId)
+                ->delete();
+
+            \Illuminate\Support\Facades\DB::commit();
+
+            return redirect()->route('groups.show', $groupId)->with('success', 'ลบรายการบิลเรียบร้อยแล้ว');
+
+        } catch (\Exception $e) {
+            \Illuminate\Support\Facades\DB::rollBack();
+            return back()->with('error', 'ไม่สามารถลบรายการได้: ' . $e->getMessage());
+        }
     }
 }

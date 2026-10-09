@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes; // 1. Import SoftDeletes
 
 class Group extends Model
 {
+    use SoftDeletes; // 2. เรียกใช้งาน SoftDeletes
+
     protected $table = 'groups';
 
     // 1. ตั้งค่า Primary Key เป็น CHAR(8)
@@ -13,14 +16,16 @@ class Group extends Model
     public $incrementing = false;
     protected $keyType = 'string';
 
-    // 2. ตั้งค่าชื่อคอลัมน์ Timestamp ใหม่
+    // 2. ตั้งค่าชื่อคอลัมน์ Timestamp และ SoftDeletes ใหม่
     const CREATED_AT = 'group_createdAt';
     const UPDATED_AT = 'group_updatedAt';
+    const DELETED_AT = 'group_deletedAt'; // 3. เพิ่มคอลัมน์สำหรับ SoftDeletes
 
     // 3. อนุญาตให้บันทึกข้อมูลในคอลัมน์เหล่านี้ได้
     protected $fillable = [
         'group_id', 
         'group_name'
+        // ลบ created_by ออกไปแล้ว
     ];
 
     // ==========================================

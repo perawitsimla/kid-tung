@@ -83,3 +83,25 @@
     text-decoration: none;
     font-weight: 500;
 }
+/* public/css/group-create.css */
+.group-create-container { max-width: 500px; margin: 3rem auto; background: #ffffff; padding: 2.5rem; border-radius: 16px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); }
+.group-create-container h2 { color: #111827; margin-top: 0; }
+.input-add-group { display: flex; gap: 0.5rem; }
+.input-add-group input { flex: 1; padding: 0.75rem; border: 1px solid #D1D5DB; border-radius: 8px; outline: none; }
+.input-add-group input:focus { border-color: #EA580C; }
+
+/* ปุ่มเพิ่มสมาชิก */
+.btn-add { background-color: #EA580C; color: white; border: none; padding: 0 1.25rem; border-radius: 8px; cursor: pointer; font-weight: 600; transition: 0.2s; }
+.btn-add:hover { background-color: #C2410C; }
+
+.member-list { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem; margin-bottom: 1.5rem; }
+/* ป้ายชื่อสมาชิกสีส้ม */
+.member-badge { background-color: #FFEDD5; color: #C2410C; padding: 0.4rem 0.8rem; border-radius: 20px; display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.9rem; border: 1px solid #FDBA74; font-weight: 500; }
+.member-badge .remove-btn { background: none; border: none; color: #EA580C; font-weight: bold; cursor: pointer; font-size: 1.1rem; line-height: 1; padding: 0; }
+.member-badge .remove-btn:hover { color: #9A3412; }
+
+.form-actions { display: flex; gap: 1rem; margin-top: 2rem; }
+/* ถ้าปุ่มยืนยันดึงมาจาก auth.css ให้ไปเขียนทับแบบ inline หรือเพิ่มคลาสที่นี่ */
+.btn-primary { flex: 1; background-color: #EA580C; color: white; border: none; padding: 0.75rem; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 1rem; text-align: center; }
+.btn-primary:hover { background-color: #C2410C; }
+.btn-secondary { flex: 1; display: inline-block; text-align: center; padding: 0.75rem; background-color: #F3F4F6; color: #374151; border-radius: 8px; text-decoration: none; font-weight: bold; }
